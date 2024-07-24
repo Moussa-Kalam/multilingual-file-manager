@@ -1,8 +1,13 @@
-const express = require('express');
+import express from 'express';
+import { getUsers, getUserById, findUserByEmail,
+  createUser,
+  updateUser,
+  deleteUser
+ } from '../controllers/users.js'
 
-const router = express.Router();
+const userRoutes = express.Router();
 
-let users = [
+export let users = [
   {
     id: 1,
     firstName: 'John',
@@ -23,82 +28,81 @@ let users = [
   },
 ];
 
-// GET request: Retrieve all the users
-router.get('/', (_req, res) => {
-  return res.status(200).json(users);
+
+userRoutes.get('/', async (_req, res) => {
+  const users = await getUsers();
+
+  return res.status(200).json(users[0]);
 });
 
 // GET user by ID
-router.get('/:id', (req, res) => {
+userRoutes.get('/:id', async (req, res) => {
   // Retrieve the id parameter from the request url
   const userId = Number(req.params.id);
-
-  const user = users.find((user) => user.id === userId);
-
-  if (!user)
-    res.status(404).json({ status: 'fail', message: 'User not found!' });
-
-  return res.json(user);
+try{
+  const user = await getUserById(userId);
+  return res.status(200).json(user);
+} catch (error){
+  return res.status(404).json({ status: 'fail', message: 'User not found!' });
+}
 });
 
 // POST request: Create a new user
-router.post('/', (req, res) => {
-  const { email } = req.body;
-  const existingId = users.length;
+userRoutes.post('/', async (req, res) => {
+  const { email,password,language } = req.body;
+  const userWithSameEmail = await findUserByEmail(email);
 
-  const userWithSameEmail = users.find((user) => user.email === email);
-
-  if (userWithSameEmail)
+  if (userWithSameEmail.length > 0)
     return res.status(409).json({
       status: 'conflict',
       message: 'User with the same email already exists',
     });
 
-  users.push({
-    id: existingId + 1,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-  });
-
-  return res.status(201).json({
-    status: 'success',
-    message: `The user ${req.body.firstName} has been added!`,
-  });
+  try {
+    await createUser({
+      email:email,
+      password:password,
+      language:language,
+    })
+    return res.status(201).json({
+      status: 'success',
+      message: `The user with ${email} has been added!`,
+    });
+    
+  } catch (error) {
+    return res.status(500).json({ status: 'error', message: 'Internal server error' });
+  }
+  
 });
 
 // PUT request: Update the details of a user based on its ID
-router.put('/:id', (req, res) => {
-  const { id: userId, firstName, lastName, email } = req.body;
-  const matchedUser = users.find((user) => user.id === userId);
-
-  if (!matchedUser)
-    return res.status(404).json({ status: 'fail', message: 'User not found!' });
-
-  if (firstName) matchedUser.firstName = firstName;
-  if (lastName) matchedUser.lastName = lastName;
-  if (email) matchedUser.email = email;
-
-  users = users.filter((user) => user.id !== userId);
-  users.push(matchedUser);
-
-  res.send(`User ${matchedUser.id} updated successfully!`);
-});
-
-router.delete('/:id', (req, res) => {
-  console.log('-----------')
+userRoutes.put('/:id', async (req, res) => {
   const userId = Number(req.params.id);
-console.log(userId)
-  const user = users.find((user) => user.id === userId);
+  const {email,password,language } = req.body;
+  
+  try {
+    const matchedUser = await getUserById(userId);
 
-  if (!user)
-    return res.status(404).json({ status: 'fail', message: 'User not found' });
-
-  users = users.filter((user) => user.id !== userId);
-
-  res
-    .status(204)
-    .json({ status: 'success', message: `User was deleted successfully` });
+      if (language) matchedUser.language = language;
+      if (password) matchedUser.password = password;
+      if (email) matchedUser.email = email;
+      
+      await updateUser(userId, matchedUser)
+      res.json(`User ${userId} updated successfully!`);
+  } catch (error) {
+    return res.status(404).json({ status: 'fail', message: 'User not found!' });
+  } 
 });
 
-module.exports = router;
+userRoutes.delete('/:id',async (req, res) => {
+  const userId = Number(req.params.id);
+  try {
+    const user = await getUserById(userId);
+    await deleteUser(user.id)
+    return res.status(200).json({ status: 'success', message: 'User deleted successfully' });
+  } catch (error) {
+   return res.status(404).json({ status: 'fail', message: 'User not found' });
+  }
+});
+
+export default userRoutes
