@@ -85,9 +85,10 @@ router.put('/:id', (req, res) => {
   res.send(`User ${matchedUser.id} updated successfully!`);
 });
 
-router.delete(':/id', (req, res) => {
+router.delete('/:id', (req, res) => {
+  console.log('-----------')
   const userId = Number(req.params.id);
-
+console.log(userId)
   const user = users.find((user) => user.id === userId);
 
   if (!user)
@@ -97,7 +98,7 @@ router.delete(':/id', (req, res) => {
 
   res
     .status(204)
-    .json({ status: 'success', message: `User with deleted successfully` });
+    .json({ status: 'success', message: `User was deleted successfully` });
 });
 
 module.exports = router;
