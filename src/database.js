@@ -10,5 +10,9 @@ const pool = mysql.createPool({
     database:process.env.DB_NAME,
 }).promise();
 
+export const redisOptions = {
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT
+}
 
 export default pool;

@@ -7,31 +7,9 @@ import { getUsers, getUserById, findUserByEmail,
 
 const userRoutes = express.Router();
 
-export let users = [
-  {
-    id: 1,
-    firstName: 'John',
-    lastName: 'wick',
-    email: 'johnwick@gamil.com',
-  },
-  {
-    id: 2,
-    firstName: 'John',
-    lastName: 'smith',
-    email: 'johnsmith@gamil.com',
-  },
-  {
-    id: 3,
-    firstName: 'Joyal',
-    lastName: 'white',
-    email: 'joyalwhite@gamil.com',
-  },
-];
-
 
 userRoutes.get('/', async (_req, res) => {
   const users = await getUsers();
-
   return res.status(200).json(users[0]);
 });
 

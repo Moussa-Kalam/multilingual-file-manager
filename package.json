@@ -11,9 +11,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bull": "^4.15.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "mysql2": "^3.10.3"
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.10.3",
+    "redis": "^4.6.15"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"
