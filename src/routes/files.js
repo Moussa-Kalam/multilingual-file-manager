@@ -1,10 +1,8 @@
-import { response, Router } from 'express';
+import { Router } from 'express';
 import * as fileController from '../controllers/files.js';
-import multer from 'multer';
 import upload from "../helpers/multerconfig.js"
 
 const router = Router()
-
 
 router.get('/', async (_req, response) => {
     try{
@@ -13,7 +11,6 @@ router.get('/', async (_req, response) => {
     }catch(error){
         return response.status(404).json({ status: 'fail', message: 'No files found' });
     }
-    
 })
 
 router.post('/upload', (request, response, next) => {
@@ -25,18 +22,18 @@ router.post('/upload', (request, response, next) => {
     })
 },fileController.uploadFile)
 
-
-router.patch('update/:id', async (request, response) => {
+router.patch('/update/:id', async (request, response) => {
     const id = Number(request.params.id);
-    console.log(request.file, id);
    try {
-    const file =  await fileController.updateFile(id, request.file);
+    const file =  await fileController.updateFile(id, 
+        request.body.filename
+    );
     response.status(201).json({ status: 'success', message: 'File updated successfully', data: file });
    } catch (error) {
-    return response.status(404).json({ status: 'fail', message: 'File not found' });
+    return response.status(404).json({ status: 'fail', message:error.message });
    }
 });
-    
+
 router.delete('/:id', async (request, response) => {
     const id = Number(request.params.id);
     try{
@@ -46,7 +43,5 @@ router.delete('/:id', async (request, response) => {
         return response.status(404).json({ status: 'fail', message: 'File not found' });
     }
 })
-
-
 
 export default router;

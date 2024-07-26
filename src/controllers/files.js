@@ -22,7 +22,7 @@ export const uploadFile = async (request, response, next) => {
     response.status(201).json({ status: 'success', message: 'File uploaded successfully' });    
 }
 
-export const getFiles = async (request, response) => {
+export const getFiles = async () => {
     const[ files] = await database.query(`SELECT * FROM files WHERE user_id = 1`)
     if (files.length === 0) {
        throw new Error('No files found')
@@ -44,17 +44,13 @@ export const deleteFile = async (id) => {
     return file
 }
 
-export const updateFile = async (id, file) => {
-    await getFileById(id)
-   await deleteFile(id)
-   const fileToUpdate = {
-         user_id: 1,
-         id: id,
-         name: file.name,
-         size: file.size,
-         type: file.type,
-         path: file.path,
+export const updateFile = async (id, filename) => {
+ const fileToUpdate =  await getFileById(id)
+   const fileUpdate = {
+         ...fileToUpdate[0],
+            name: filename,
+            path: fileToUpdate.path.split("/").slice(0, -1).join("/") + "/" + filename
    }
-    const updateFile = await uploadFile([fileToUpdate])
+   const [updateFile] = await database.query('UPDATE files SET ? WHERE id = ?', [fileUpdate, id])
     return updateFile
 }
