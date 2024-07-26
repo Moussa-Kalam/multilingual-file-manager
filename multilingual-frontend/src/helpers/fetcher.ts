@@ -6,7 +6,7 @@ interface FetcherData {
 
 const API_URL = "";
 
-export const fetcher = async ({ url, method, body }: FetcherData) => {
+export const fetcher = async ({ url, method = "GET", body }: FetcherData) => {
   try {
     let headers: any = {};
     const token = localStorage.getItem("token")?.replace(/"/g, "");

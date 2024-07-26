@@ -1,9 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
+import { useEffect } from "react";
 import { z } from "zod";
 import useUploadFile from "../hooks/useUploadFile";
-import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 const schema = z.object({
   files: z
@@ -20,6 +21,7 @@ export default function AddFileModal({
   onClose: () => void;
   isModalOpen: boolean;
 }) {
+  const { t } = useTranslation();
   const {
     handleSubmit,
     formState: { errors },
@@ -54,7 +56,7 @@ export default function AddFileModal({
       <div className="modal" role="dialog">
         <div className="modal-box">
           <div className="flex justify-between">
-            <h3 className="text-lg font-bold">Add File</h3>
+            <h3 className="text-lg font-bold">{t("addFileModal.title")}</h3>
             <button
               onClick={onClose}
               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
@@ -81,7 +83,7 @@ export default function AddFileModal({
                 <span className="loading loading-spinner"></span>
               ) : (
                 <button className="btn" disabled={isPending}>
-                  Submit File
+                  {t("addFileModal.submit")}
                 </button>
               )}
             </div>

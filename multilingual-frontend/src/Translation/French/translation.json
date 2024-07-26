@@ -1,0 +1,32 @@
+{
+  "LoginPage": {
+    "title": "Se connecter",
+    "password": "Mot de passe",
+    "email": "E-mail",
+    "submit": "Soumettre",
+    "goToSignUp": "Allez pour vous inscrire"
+  },
+  "SignUpPage": {
+    "title": "S'inscrire",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmez le mot de passe",
+    "email": "E-mail",
+    "submit": "Soumettre",
+    "goToLogin": "Aller se connecter"
+  },
+  "homePage": {
+    "logoutButtonText": "Se déconnecter",
+    "files": "Des dossiers",
+    "addFiles": "Ajouter des fichiers",
+    "addedFiles": "Fichiers ajoutés",
+    "id": "id",
+    "fileName": "Nom de fichier",
+    "size": "Taille",
+    "actions": "Actions"
+  },
+  "addFileModal": {
+    "title": "Ajouter un fichier",
+    "file": "Fichier",
+    "submit": "Soumettre le fichier"
+  }
+}
