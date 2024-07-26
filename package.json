@@ -1,6 +1,7 @@
 {
   "name": "multilingual-file-manager",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "nodemon server.js"
@@ -10,6 +11,11 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bull": "^4.15.1",
+    "dotenv": "^16.4.5",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.10.3",
+    "redis": "^4.6.15",
     "@headlessui/react": "^2.1.2",
     "express": "^4.19.2",
     "i18next": "^23.12.2",
