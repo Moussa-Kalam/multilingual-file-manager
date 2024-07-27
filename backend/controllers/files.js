@@ -1,5 +1,5 @@
-import database from "./../database.js"
-import { redisOptions } from "./../database.js"
+import database from "../database.js"
+import { redisOptions } from "../database.js"
 import Bull from "bull"
 
 
