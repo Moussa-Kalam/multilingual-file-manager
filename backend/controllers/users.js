@@ -5,6 +5,7 @@ import {
   getUserByIdModel,
   getUsersModel,
   updateUserModel,
+  findUserByEmailModel,
 } from "../models/users.js";
 
 export const getUsers = async (req, res, next) => {
@@ -48,7 +49,7 @@ export const createUser = async (req, res, next) => {
 
     const { email, password } = req.body;
 
-    const userWithSameEmail = await findUserByEmail(email);
+    const userWithSameEmail = await findUserByEmailModel(email);
 
     if (userWithSameEmail.length > 0) {
       const error = new Error("User with the same email already exists");
@@ -65,10 +66,11 @@ export const createUser = async (req, res, next) => {
     res.status(201).json({
       message: `The user with ${email} has been added!`,
     });
-  } catch {
-    const error = new Error("Internal server error");
+  } catch(error) {
+    console.log(error);
+    const errorM = new Error("Internal server error");
 
-    next(error);
+    next(errorM);
   }
 };
 

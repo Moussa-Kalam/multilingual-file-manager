@@ -1,12 +1,18 @@
 import { useTranslation } from "react-i18next";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 export default function MainLayout() {
   const { t } = useTranslation();
   const { i18n } = useTranslation();
+  const navigate = useNavigate();
   const onClickLanguageChange = (e: any) => {
     const language = e.target.value as "en" | "fr" | "rw";
     i18n.changeLanguage(language);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/auth/login");
   };
   return (
     <main className="px-32 py-10 min-h-dvh grid">
@@ -20,7 +26,7 @@ export default function MainLayout() {
             <option value="fr">🇫🇷 Français</option>
             <option value="rw">🇷🇼 Ikinyarwanda</option>
           </select>
-          <button className="bg-black text-white font-bold py-2 px-3 rounded-md">
+          <button className="bg-black text-white font-bold py-2 px-3 rounded-md" onClick={handleLogout}>
             {t("homePage.logoutButtonText")}
           </button>
         </div>

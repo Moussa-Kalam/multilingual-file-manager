@@ -4,10 +4,14 @@ import fileRoutes from "./routes/files.js";
 import authRoutes from "./routes/user-auth.js";
 import { expressjwt } from "express-jwt";
 import { getUserById } from "./controllers/users.js";
-
+import cors from "cors";
 const app = express();
 const port = 3000;
 
+app.use(cors());
+
+app.use(express.json())
+app.use("/users", userRoutes);
 app.use(
   expressjwt({
     secret: process.env.JWT_SECRET_KEY,
@@ -39,7 +43,6 @@ app.get("/", (req, res) => {
 });
 
 app.use(express.json());
-app.use("/users", userRoutes);
 app.use("/files", fileRoutes);
 app.use("/auth", authRoutes);
 

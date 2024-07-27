@@ -1,6 +1,7 @@
 import database from "../database.js";
 
 export const createUserModel = async ({ email, password }) => {
+  const language = "en";
   const [data] = await database.query(
     `INSERT INTO users (email, password, language) VALUES ('${email}', '${password}', '${language}')`
   );

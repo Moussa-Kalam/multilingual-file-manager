@@ -8,3 +8,10 @@ export interface ErrorResponse {
   message: string;
   status: number;
 }
+
+export interface UserDTO{
+  email: string,
+  password: string,
+  confirmPassword: string
+
+}
