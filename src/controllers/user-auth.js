@@ -1,5 +1,5 @@
-import { sign } from "jsonwebtoken";
-import { findUserByEmailModel } from "../models/users";
+import jwt from "jsonwebtoken";
+import { findUserByEmailModel } from "../models/users.js";
 
 export const login = async (req, res, next) => {
   const { email, password } = req.body;
@@ -22,7 +22,7 @@ export const login = async (req, res, next) => {
       return next(error);
     }
 
-    const token = sign({ id: user.id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
 
