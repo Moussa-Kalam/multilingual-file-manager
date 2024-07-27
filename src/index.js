@@ -1,6 +1,7 @@
 import express, { response } from "express";
 import userRoutes from "./routes/users.js";
 import fileRoutes from "./routes/files.js";
+import authRoutes from "./routes/user-auth.js";
 
 const app = express();
 const port = 3000;
@@ -12,6 +13,7 @@ app.get("/", (req, res) => {
 app.use(express.json());
 app.use("/users", userRoutes);
 app.use("/files", fileRoutes);
+app.use("/auth", authRoutes);
 
 app.use((error, request, response, next) => {
   const { message, status } = error;
