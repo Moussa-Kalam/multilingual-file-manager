@@ -1,32 +1,111 @@
-import database from '../database.js';
+import { validationResult } from "express-validator";
+import {
+  createUserModel,
+  deleteUserModel,
+  getUserByIdModel,
+  getUsersModel,
+  updateUserModel,
+} from "../models/users.js";
 
-export const getUsers = async () =>{
-  return database.query('SELECT * FROM users')
-}
+export const getUsers = async (req, res, next) => {
+  try {
+    const users = await getUsersModel();
 
-export const getUserById = async (id) =>{
- 
-    const [data]= await database.query(`SELECT * FROM users WHERE id = ${id} LIMIT 1`)
-    if(data.length === 0) throw new Error('User not found')
-    return data[0]
-  
-}
+    res.json({ users });
+  } catch {
+    const error = new Error("Internal server error");
+    next(error);
+  }
+};
 
-export const createUser = async ({email,password,language}) =>{
-  const [data]= await database.query(`INSERT INTO users (email, password, language) VALUES ('${email}', '${password}', '${language}')`)
-  return data 
-}
-export const updateUser = async (id, { email,password,language}) =>{
-  const [data]= await database.query(`UPDATE users SET email = '${email}', password = '${password}', language = '${language}' WHERE id = ${id}`)
-    console.log('Mother',data)
-  return data 
-}
-export const deleteUser = async (id) =>{
-  const [data]=await database.query(`DELETE FROM users WHERE id = ${id}`)
-  return data 
-}
+export const getUserById = async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const user = await getUserByIdModel(id);
 
-export const findUserByEmail = async (email) =>{
-  const [data]=await database.query(`SELECT * FROM users WHERE email = '${email}'`)
-  return data 
-}
+    if (!user) {
+      const error = new Error("User not found");
+      error.status = 404;
+
+      return next(error);
+    }
+
+    res.json({ user });
+  } catch {
+    const error = new Error("Internal server error");
+    next(error);
+  }
+};
+
+export const createUser = async (req, res, next) => {
+  try {
+    const validationErrors = validationResult(req);
+    if (!validationErrors.isEmpty()) {
+      const error = new Error("Validation errors");
+
+      return next(error);
+    }
+
+    const { email, password } = req.body;
+
+    const userWithSameEmail = await findUserByEmail(email);
+
+    if (userWithSameEmail.length > 0) {
+      const error = new Error("User with the same email already exists");
+      error.status = 409;
+
+      return next(error);
+    }
+
+    await createUserModel({
+      email: email,
+      password: password,
+    });
+
+    res.status(201).json({
+      message: `The user with ${email} has been added!`,
+    });
+  } catch {
+    const error = new Error("Internal server error");
+
+    next(error);
+  }
+};
+
+export const updateUser = async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+
+    const updatedUser = await updateUserModel(id, req.body);
+
+    if (!updateUser) {
+      const error = new Error("User not found");
+
+      return next(error);
+    }
+
+    res.json({ user: updatedUser });
+  } catch {
+    const error = new Error("Internal server error");
+    next(error);
+  }
+};
+
+export const deleteUser = async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+
+    const deletedUser = await deleteUserModel(id);
+
+    if (!deletedUser) {
+      const error = new Error("User not found");
+
+      return next(error);
+    }
+
+    res.status(204);
+  } catch {
+    const error = new Error("Internal server error");
+    next(error);
+  }
+};
