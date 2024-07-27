@@ -8,5 +8,6 @@ export default {
   plugins: [daisyui],
   daisyui: {
     darkTheme: false,
+    logs: false
   },
 };
