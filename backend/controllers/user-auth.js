@@ -5,7 +5,7 @@ import { findUserByEmailModel } from "../models/users.js";
 export const login = async (req, res, next) => {
   const { email, password } = req.body;
   try {
-    const user = await findUserByEmailModel(email);
+    const [user] = await findUserByEmailModel(email);
 
     if (!user) {
       const error = new Error("User not found");
@@ -13,11 +13,9 @@ export const login = async (req, res, next) => {
 
       return next(error);
     }
-    console.log("user",user)
-    console.log("password",password)
 
-    const passwordsMatch = bcrypt.compare(password, user.password);
-    console.log("passwordsMatch", passwordsMatch);
+  
+    const passwordsMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordsMatch) {
       const error = new Error("Email or password is incorrect");

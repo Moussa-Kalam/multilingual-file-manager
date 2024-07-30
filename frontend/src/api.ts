@@ -13,5 +13,10 @@ export interface UserDTO{
   email: string,
   password: string,
   confirmPassword: string
+}
 
+export interface User {
+  id: string;
+  email: string;
+  password: string;
 }

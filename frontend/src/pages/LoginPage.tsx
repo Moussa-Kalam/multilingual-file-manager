@@ -1,22 +1,30 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { Link, useNavigate } from "react-router-dom";
 import useLoging from "../components/hooks/useLoging";
 
 export function LoginForm() {
   const { t } = useTranslation();
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const { data: userData, mutate } = useLoging();
+  const { data: userData, mutate, error } = useLoging();
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
+  useEffect(() => {
+    if (userData) {
+      localStorage.setItem("token", userData.token);
+      if (userData.token) {
+        navigate("/");
+      }
+
+    }
+
+  }, [navigate, userData])
+
+  const onSubmit = (data: object) => {
     console.log(data);
     console.log(userData, "--------userdata")
     mutate(JSON.stringify(data));
-    localStorage.setItem("token", userData.token);
-    if (userData.token) {
-      navigate("/");
-    }
   };
 
   return (
@@ -56,6 +64,7 @@ export function LoginForm() {
           >
             {t("LoginPage.submit")}
           </button>
+          {error && <p>{error.errorMessage}</p>}
           <Link className="text-center text-sm mt-5" to="/auth/signup">
             {t("LoginPage.goToSignUp")}
           </Link>
