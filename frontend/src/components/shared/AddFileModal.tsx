@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { z } from "zod";
 import useUploadFile from "../hooks/useUploadFile";
 import { useTranslation } from "react-i18next";
+import { useQueryClient } from "@tanstack/react-query";
 
 const schema = z.object({
   files: z
@@ -21,6 +22,7 @@ export default function AddFileModal({
   onClose: () => void;
   isModalOpen: boolean;
 }) {
+  const queryClient = useQueryClient()
   const { t } = useTranslation();
   const {
     handleSubmit,
@@ -31,9 +33,10 @@ export default function AddFileModal({
 
   useEffect(() => {
     if (data) {
+      window.location.reload();
       onClose();
     }
-  }, [data, onClose]);
+  }, [data, onClose, queryClient]);
 
   const onSubmit = (data: AddFileFormData) => {
     const formData = new FormData();

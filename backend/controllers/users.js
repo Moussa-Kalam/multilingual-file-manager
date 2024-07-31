@@ -7,6 +7,7 @@ import {
   updateUserModel,
   findUserByEmailModel,
 } from "../models/users.js";
+import bcrypt, { hash } from "bcrypt";
 
 export const getUsers = async (req, res, next) => {
   try {
@@ -20,6 +21,7 @@ export const getUsers = async (req, res, next) => {
 };
 
 export const getUserById = async (req, res, next) => {
+  console.log(res)
   try {
     const id = Number(req.params.id);
     const user = await getUserByIdModel(id);
@@ -58,9 +60,11 @@ export const createUser = async (req, res, next) => {
       return next(error);
     }
 
+    const hashedPassword = await bcrypt.hash(password, 12);
+
     await createUserModel({
       email: email,
-      password: password,
+      password: hashedPassword,
     });
 
     res.status(201).json({

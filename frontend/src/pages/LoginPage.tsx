@@ -22,8 +22,6 @@ export function LoginForm() {
   }, [navigate, userData])
 
   const onSubmit = (data: object) => {
-    console.log(data);
-    console.log(userData, "--------userdata")
     mutate(JSON.stringify(data));
   };
 

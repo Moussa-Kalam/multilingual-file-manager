@@ -30,5 +30,10 @@
     "title": "Add File",
     "file": "File",
     "submit": "Submit File"
+  },
+  "editFileModal": {
+    "title": "Edit File",
+    "file": "File",
+    "submit": "Submit File name"
   }
 }

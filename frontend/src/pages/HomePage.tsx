@@ -11,6 +11,7 @@ export function HomePage() {
     setIsModalOpen(false);
   }
 
+
   return (
     <div>
       <div className="flex justify-between">

@@ -14,8 +14,11 @@ router.get('/', async (_req, response) => {
 })
 
 router.post('/upload', (request, response, next) => {
+  
     upload(request, response, (error) => {
+       
         if (error) {
+            console.log(error)
             return response.status(400).json({ status: 'fail', message: error.message });
         }
         next()

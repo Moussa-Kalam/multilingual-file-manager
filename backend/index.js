@@ -5,6 +5,7 @@ import authRoutes from "./routes/user-auth.js";
 import { expressjwt } from "express-jwt";
 import { getUserById } from "./controllers/users.js";
 import cors from "cors";
+import { getUserByIdModel } from "./models/users.js";
 const app = express();
 const port = 3000;
 
@@ -22,7 +23,7 @@ app.use(
 app.use(async (request, _response, next) => {
   try {
     if (request.auth?.id) {
-      const user = await getUserById(request.auth.id);
+      const user = await getUserByIdModel(request.auth.id);
 
       if (!user) throw new Error("User not found");
 
@@ -32,8 +33,9 @@ app.use(async (request, _response, next) => {
     }
 
     next();
-  } catch {
-    const error = new CustomError("Internal server error.", 500);
+  } catch(errorr) {
+    console.log(errorr)
+    const error = new Error("Internal server error.", 500);
     next(error);
   }
 });

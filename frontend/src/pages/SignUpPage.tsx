@@ -2,19 +2,25 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import useCreateUser from "../components/hooks/useCreateUser";
+import { useEffect } from "react";
 
 export function SignUpForm() {
   const { t } = useTranslation();
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const { data, error, isPending, mutate } = useCreateUser();
+  const { data, mutate } = useCreateUser();
   const navigate = useNavigate();
-  console.log(data, "creation data", error, "creation error", isPending, "creation isPending"
-  );
-  const onSubmit = data => {
-    console.log(data);
+
+  useEffect(() => {
+
+    if (data) {
+      localStorage.setItem("token", data.token);
+      navigate("/auth/login");
+    }
+  }, [data, navigate])
+
+  const onSubmit = () => {
 
     mutate(JSON.stringify(data));
-    navigate("/auth/login");
   };
 
   return (

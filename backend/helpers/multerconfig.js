@@ -20,4 +20,4 @@ const fileDocumentStorage = multer.diskStorage({
     },
 })
 
-export default multer({ storage: fileDocumentStorage }).array("file")  
+export default multer({ storage: fileDocumentStorage }).array("files")  
