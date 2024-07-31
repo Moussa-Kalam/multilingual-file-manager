@@ -26,7 +26,8 @@
     "size": "Size",
     "actions": "Actions",
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+    "noFiles": "No Files added yet"
   },
   "addFileModal": {
     "title": "Add File",

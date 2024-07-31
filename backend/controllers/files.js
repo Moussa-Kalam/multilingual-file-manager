@@ -24,9 +24,6 @@ export const uploadFile = async (request, response, next) => {
 
 export const getFiles = async () => {
     const[ files] = await database.query(`SELECT * FROM files WHERE user_id = 1`)
-    if (files.length === 0) {
-       throw new Error('No files found')
-    }
     return files
 }
 

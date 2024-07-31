@@ -17,7 +17,6 @@ export default function Table() {
   const handleDelete = async (id: string) => {
     try {
       await fetcher({ url: `/files/${id}`, method: "DELETE" });
-      // window.location.reload();
       queryClient.invalidateQueries(["files"] as InvalidateQueryFilters);
     } catch (err) {
       console.error("Error deleting file:", err);
@@ -58,14 +57,21 @@ export default function Table() {
               </td>
             </tr>
           ))}
-          {isPending && (
+          {data?.length === 0 && (
             <tr>
               <td colSpan={4} align="center">
-                <span className="loading loading-spinner mx-auto text-center"></span>
+                {t("homePage.noFiles")}
               </td>
             </tr>
           )}
-        </tbody>
+              {isPending && (
+                <tr>
+                  <td colSpan={4} align="center">
+                    <span className="loading loading-spinner mx-auto text-center"></span>
+                  </td>
+                </tr>
+              )}
+            </tbody>
       </table>
       <EditFileModal
         onClose={handleModalClose}
