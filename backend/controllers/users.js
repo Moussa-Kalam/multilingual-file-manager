@@ -43,6 +43,7 @@ export const getUserById = async (req, res, next) => {
 export const createUser = async (req, res, next) => {
   try {
     const validationErrors = validationResult(req);
+    console.log(validationErrors)
     if (!validationErrors.isEmpty()) {
       const error = new Error("Validation errors");
 

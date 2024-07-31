@@ -16,7 +16,7 @@ const fileDocumentStorage = multer.diskStorage({
        callback(null, fileDirectory);
     },
     filename: (request, file, callback) => {
-        callback(null, `${Date.now()}${path.extname(file.originalname)}`);
+        callback(null, `${file.originalname}`);
     },
 })
 

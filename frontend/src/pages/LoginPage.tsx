@@ -3,16 +3,18 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import useLoging from "../components/hooks/useLoging";
+import { useLocalStorage } from "usehooks-ts";
 
 export function LoginForm() {
   const { t } = useTranslation();
   const { register, handleSubmit, formState: { errors } } = useForm();
   const { data: userData, mutate, error } = useLoging();
   const navigate = useNavigate();
+  const [, setValue] = useLocalStorage("token", "");
 
   useEffect(() => {
     if (userData) {
-      localStorage.setItem("token", userData.token);
+      setValue(userData.token);
       if (userData.token) {
         navigate("/");
       }

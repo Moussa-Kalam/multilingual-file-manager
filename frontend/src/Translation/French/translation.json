@@ -4,7 +4,9 @@
     "password": "Mot de passe",
     "email": "E-mail",
     "submit": "Soumettre",
-    "goToSignUp": "Allez pour vous inscrire"
+    "goToSignUp": "Allez pour vous inscrire",
+    "emailError": "Veuillez saisir un e-mail valide",
+    "passwordError": "Veuillez saisir un mot de passe valide"
   },
   "SignUpPage": {
     "title": "S'inscrire",
@@ -22,11 +24,18 @@
     "id": "id",
     "fileName": "Nom de fichier",
     "size": "Taille",
-    "actions": "Actions"
+    "actions": "Actions",
+    "edit": "Modifier",
+    "delete": "Supprimer"
   },
   "addFileModal": {
     "title": "Ajouter un fichier",
     "file": "Fichier",
     "submit": "Soumettre le fichier"
+  },
+  "editFileModal": {
+    "title": "Changer le nom du fichier",
+    "file": "Fichier",
+    "submit": "Soumettre le nom du fichier"
   }
 }

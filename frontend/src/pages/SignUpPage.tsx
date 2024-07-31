@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import useCreateUser from "../components/hooks/useCreateUser";
 import { useEffect } from "react";
 
@@ -10,16 +10,16 @@ export function SignUpForm() {
   const { data, mutate } = useCreateUser();
   const navigate = useNavigate();
 
-  useEffect(() => {
+  console.log(errors)
 
+  useEffect(() => {
     if (data) {
       localStorage.setItem("token", data.token);
       navigate("/auth/login");
     }
   }, [data, navigate])
 
-  const onSubmit = () => {
-
+  const onSubmit = (data: FieldValues) => {
     mutate(JSON.stringify(data));
   };
 

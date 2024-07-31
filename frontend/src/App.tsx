@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import ProtectedLayout from "./components/layouts/ProtectedLayout";
 
 const queryClient = new QueryClient();
 
@@ -18,7 +19,9 @@ function App() {
   const routes = createBrowserRouter(
     createRoutesFromElements(
       <Route element={<MainLayout />}>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<ProtectedLayout />}>
+          <Route index element={<HomePage />} />
+        </Route>
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="login" element={<LoginForm />} />
           <Route path="signup" element={<SignUpForm />} />

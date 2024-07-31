@@ -1,10 +1,12 @@
 {
   "LoginPage": {
     "title": "Injira",
-    "password": "Ijambobanga",
+    "password": "Ijambo ry'ibanga",
     "email": "Imeri",
     "submit": "Emeza",
-    "goToSignUp": "Jya Kwiyandikisha"
+    "goToSignUp": "Jya Kwiyandikisha",
+    "emailError": "Ku kibazo, andika imeri y'ibanga",
+    "passwordError": "Ku kibazo, andika ijambo ry'ibanga ry'ibanga"
   },
   "SignUpPage": {
     "title": "Kwiyandikisha",
@@ -22,11 +24,18 @@
     "id": "id",
     "fileName": "Izina rya dosiye",
     "size": "Ingano",
-    "actions": "Hindura"
+    "actions": "Ibikorwa",
+    "edit": "Hindura",
+    "delete": "Siba"
   },
   "addFileModal": {
     "title": "Ongera dosiye",
     "file": "Dosiye",
     "submit": "Emeza dosiye"
+  },
+  "editFileModal": {
+    "title": "Hindura dosiye",
+    "file": "Dosiye",
+    "submit": "Emeza izina rya dosiye"
   }
 }

@@ -50,6 +50,7 @@ app.use("/auth", authRoutes);
 
 app.use((error, request, response, next) => {
   let { message, status } = error;
+  console.log(error)
 
   if (error.name === "UnauthorizedError") status = 401;
 

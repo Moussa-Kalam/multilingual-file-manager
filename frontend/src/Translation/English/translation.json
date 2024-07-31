@@ -4,7 +4,9 @@
     "password": "Password",
     "email": "Email",
     "submit": "Submit",
-    "goToSignUp": "Go To Sign Up"
+    "goToSignUp": "Go To Sign Up",
+    "emailError": "Please enter a valid email",
+    "passwordError": "Please enter a valid password"
   },
   "SignUpPage": {
     "title": "Sign Up",
